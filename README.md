@@ -56,19 +56,21 @@ This project page provides pytorch code that implements the following CVPR2019 p
     - `python google_drive.py 1BHl_GyFyYr5qy78A2VKjIED1Hm64ZkDf eval/FID/coco_val.npz`
 
 **Training**
+- go into `code/` folder
 - bird: `python main.py --cfg cfg/bird_DMGAN.yml --gpu 0`
 - coco: `python main.py --cfg cfg/coco_DMGAN.yml --gpu 0`
 
 **Validation**
-1. Images generation: 
+1. Images generation:
+    - go into `code/` folder  
     - `python main.py --cfg cfg/eval_bird.yml --gpu 0`
     - `python main.py --cfg cfg/eval_coco.yml --gpu 0`
 2. Inception score ([IS for bird](https://github.com/hanzhanggit/StackGAN-inception-model), [IS for coco](https://github.com/openai/improved-gan/tree/master/inception_score)):
-    - `CUDA_VISIBLE_DEVICES=0 python inception_score_bird.py --image_folder ../../../models/bird_DMGAN`
-    - `CUDA_VISIBLE_DEVICES=1 python inception_score_coco.py ../../../models/coco_DMGAN`
+    - `cd DM-GAN/eval/IS/bird && CUDA_VISIBLE_DEVICES=0 && python inception_score_bird.py --image_folder ../../../models/bird_DMGAN`
+    - `cd DM-GAN/eval/IS/coco && CUDA_VISIBLE_DEVICES=1 && python inception_score_coco.py ../../../models/coco_DMGAN`
 3. FID:
-    - `python fid_score.py --gpu 0 --batch-size 50 --path1 bird_val.npz --path2 ../../models/bird_DMGAN`
-    - `python fid_score.py --gpu 0 --batch-size 50 --path1 coco_val.npz --path2 ../../models/coco_DMGAN`
+    - `cd DM-GAN/eval/FID && python fid_score.py --gpu 0 --batch-size 50 --path1 bird_val.npz --path2 ../../models/bird_DMGAN`
+    - `cd DM-GAN/eval/FID && python fid_score.py --gpu 0 --batch-size 50 --path1 coco_val.npz --path2 ../../models/coco_DMGAN`
 
 **Performance**
 
@@ -76,12 +78,12 @@ Note that after cleaning and refactoring the code of the paper, the results are 
 
 |Model |R-precision↑  |IS↑  |[Pytorch FID](https://github.com/mseitzer/pytorch-fid/tree/802da3963113b5b5f8154e0e27580ee4c97460ab)↓ | [TF FID](https://github.com/bioinf-jku/TTUR)↓|
 |----|-----| -----|---|--|
-| bird_AttnGAN (paper) | 67.82% ± 4.43%| 4.36 ± 0.03| 23.98||
+| bird_AttnGAN (paper) | 67.82% ± 4.43%| 4.36 ± 0.03| 23.98|14.01|
 | bird_DMGAN (paper) | 72.31% ± 0.91%| 4.75 ± 0.07| 16.09|(-)|
-| bird_DMGAN (Pretrained Model)| 74.48% ± 0.61% | 4.71 ± 0.06  |15.34||
-| coco_AttnGAN (paper) | 85.47% ± 3.69%| 32.64 ± 0.57 | 35.49||
+| bird_DMGAN (Pretrained Model)| 74.48% ± 0.61% | 4.71 ± 0.06  |15.34|11.91|
+| coco_AttnGAN (paper) | 85.47% ± 3.69%| 32.64 ± 0.57 | 35.49|29.53|
 | coco_DMGAN (paper) | 88.56% ± 0.28%| 30.49 ± 0.57 | 32.64|(-)|
-| coco_DMGAN (Pretrained Model)| 89.52% ± 0.61%| 32.43 ± 0.58| 26.55||
+| coco_DMGAN (Pretrained Model)| 89.52% ± 0.61%| 32.43 ± 0.58| 26.55|24.24|
 
 ### License
 This code is released under the MIT License (refer to the LICENSE file for details). 

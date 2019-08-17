@@ -66,8 +66,8 @@ This project page provides pytorch code that implements the following CVPR2019 p
     - `python main.py --cfg cfg/eval_bird.yml --gpu 0`
     - `python main.py --cfg cfg/eval_coco.yml --gpu 0`
 2. Inception score ([IS for bird](https://github.com/hanzhanggit/StackGAN-inception-model), [IS for coco](https://github.com/openai/improved-gan/tree/master/inception_score)):
-    - `cd DM-GAN/eval/IS/bird && CUDA_VISIBLE_DEVICES=0 && python inception_score_bird.py --image_folder ../../../models/bird_DMGAN`
-    - `cd DM-GAN/eval/IS/coco && CUDA_VISIBLE_DEVICES=1 && python inception_score_coco.py ../../../models/coco_DMGAN`
+    - `cd DM-GAN/eval/IS/bird && python inception_score_bird.py --image_folder ../../../models/bird_DMGAN`
+    - `cd DM-GAN/eval/IS/coco && python inception_score_coco.py ../../../models/coco_DMGAN`
 3. FID:
     - `cd DM-GAN/eval/FID && python fid_score.py --gpu 0 --batch-size 50 --path1 bird_val.npz --path2 ../../models/bird_DMGAN`
     - `cd DM-GAN/eval/FID && python fid_score.py --gpu 0 --batch-size 50 --path1 coco_val.npz --path2 ../../models/coco_DMGAN`

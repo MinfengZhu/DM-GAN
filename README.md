@@ -74,7 +74,7 @@ This project page provides pytorch code that implements the following CVPR2019 p
 
 **Performance**
 
-Note that after cleaning and refactoring the code of the paper, the results are slightly different. We use the Pytorch implementation to measure FID score. However, the official implementation (Tensorflow FID) gives slightly different scores. 
+Note that after cleaning and refactoring the code of the paper, the results are slightly different. We use the Pytorch implementation to measure FID score. However, the official implementation (Tensorflow FID) gives different scores. 
 
 |Model |R-precision↑  |IS↑  |[Pytorch FID](https://github.com/mseitzer/pytorch-fid/tree/802da3963113b5b5f8154e0e27580ee4c97460ab)↓ | [TF FID](https://github.com/bioinf-jku/TTUR)↓|
 |----|-----| -----|---|--|

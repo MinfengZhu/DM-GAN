@@ -78,10 +78,10 @@ Note that after cleaning and refactoring the code of the paper, the results are 
 |----|-----| -----|---|--|
 | bird_AttnGAN (paper) | 67.82% ± 4.43%| 4.36 ± 0.03| 23.98|14.01|
 | bird_DMGAN (paper) | 72.31% ± 0.91%| 4.75 ± 0.07| 16.09|(-)|
-| bird_DMGAN (Pretrained Model)| 74.48% ± 0.61% | 4.71 ± 0.06  |15.34|11.91|
+| bird_DMGAN (pretrained model)| 76.58% ± 0.53% | 4.71 ± 0.06  |15.34|11.91|
 | coco_AttnGAN (paper) | 85.47% ± 3.69%| 25.89 ± 0.47 | 35.49|29.53|
 | coco_DMGAN (paper) | 88.56% ± 0.28%| 30.49 ± 0.57 | 32.64|(-)|
-| coco_DMGAN (Pretrained Model)| 89.52% ± 0.61%| 32.43 ± 0.58| 26.55|24.24|
+| coco_DMGAN (pretrained model)| 92.23% ± 0.37%| 32.43 ± 0.58| 26.55|24.24|
 
 ### License
 This code is released under the MIT License (refer to the LICENSE file for details). 

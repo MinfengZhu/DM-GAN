@@ -464,7 +464,32 @@ class condGANTrainer(object):
                         fullpath = '%s_s%d_%d.png' % (s_tmp, k, ii)
                         im.save(fullpath)
 
-                    if cnt >= 30000:
+                    _, cnn_code = image_encoder(fake_imgs[-1])
+
+                    for i in range(batch_size):
+                        mis_captions, mis_captions_len = self.dataset.get_mis_caption(class_ids[i])
+                        hidden = text_encoder.init_hidden(99)
+                        _, sent_emb_t = text_encoder(mis_captions, mis_captions_len, hidden)
+                        rnn_code = torch.cat((sent_emb[i, :].unsqueeze(0), sent_emb_t), 0)
+                        ### cnn_code = 1 * nef
+                        ### rnn_code = 100 * nef
+                        scores = torch.mm(cnn_code[i].unsqueeze(0), rnn_code.transpose(0, 1))  # 1* 100
+                        cnn_code_norm = torch.norm(cnn_code[i].unsqueeze(0), 2, dim=1, keepdim=True)
+                        rnn_code_norm = torch.norm(rnn_code, 2, dim=1, keepdim=True)
+                        norm = torch.mm(cnn_code_norm, rnn_code_norm.transpose(0, 1))
+                        scores0 = scores / norm.clamp(min=1e-8)
+                        if torch.argmax(scores0) == 0:
+                            R[R_count] = 1
+                        R_count += 1
+
+                    if R_count >= 30000:
+                        sum = np.zeros(10)
+                        np.random.shuffle(R)
+                        for i in range(10):
+                            sum[i] = np.average(R[i * 3000:(i + 1) * 3000 - 1])
+                        R_mean = np.average(sum)
+                        R_std = np.std(sum)
+                        print("R mean:{:.4f} std:{:.4f}".format(R_mean, R_std))
                         cont = False
 
 

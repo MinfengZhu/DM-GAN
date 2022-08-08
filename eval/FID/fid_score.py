@@ -226,6 +226,22 @@ def _compute_statistics_of_path(path, model, batch_size, dims, cuda):
         m, s = calculate_activation_statistics(dataloader, model, batch_size, dims, cuda)
     return m, s
 
+def _compute_statistics_of_base64(path, model, batch_size, dims, cuda):
+    if path.endswith('.npz'):
+        f = np.load(path)
+        m, s = f['mu'][:], f['sigma'][:]
+        f.close()
+
+    else:
+        dataset = img_data.Dataset_base64(path, transforms.Compose([
+            transforms.Resize((299, 299)),
+            transforms.ToTensor(),
+        ]))
+        print(dataset.__len__())
+        dataloader = torch.utils.data.DataLoader(dataset=dataset, batch_size=batch_size, shuffle=False, drop_last=True, num_workers=8)
+        m, s = calculate_activation_statistics(dataloader, model, batch_size, dims, cuda)
+    return m, s
+
 def calculate_fid_given_paths(paths, batch_size, cuda, dims):
     """Calculates the FID of two paths"""
     for p in paths:
@@ -237,9 +253,15 @@ def calculate_fid_given_paths(paths, batch_size, cuda, dims):
     model = InceptionV3([block_idx])
     if cuda:
         model.cuda()
-
-    m1, s1 = _compute_statistics_of_path(paths[0], model, batch_size, dims, cuda)
-    m2, s2 = _compute_statistics_of_path(paths[1], model, batch_size, dims, cuda)
+    
+    if os.path.isdir(paths[0]):
+        m1, s1 = _compute_statistics_of_path(paths[0], model, batch_size, dims, cuda)
+    else:
+        m1, s1 = _compute_statistics_of_base64(paths[0], model, batch_size, dims, cuda)
+    if os.path.isdir(paths[1]):
+        m2, s2 = _compute_statistics_of_path(paths[1], model, batch_size, dims, cuda)
+    else:
+        m2, s2 = _compute_statistics_of_base64(paths[1], model, batch_size, dims, cuda)
     fid_value = calculate_frechet_distance(m1, s1, m2, s2)
     return fid_value
 
